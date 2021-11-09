@@ -2,7 +2,7 @@
 
 Description:
 
-This script augments MS Learn data on modules and learning paths with additional data about World Wide Learning certifications. This enables you to build reports on content at the certification and (hopefully soon) solution area.
+This script augments MS Learn data on modules and learning paths with additional data about WWL GTL certifications. This enables you to build reports on content at the certification and (hopefully soon) solution area.
 
 Features:
 

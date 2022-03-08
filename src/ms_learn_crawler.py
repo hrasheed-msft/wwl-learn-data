@@ -7,6 +7,7 @@ import calendar
 import sys
 import codecs
 from datetime import timedelta
+import traceback
 
 from azure.kusto.data.exceptions import KustoServiceError
 from azure.kusto.data.helpers import dataframe_from_result_table
@@ -101,9 +102,14 @@ class ms_learn_crawler:
             if i<len(learn_uids)-1:
                 query = query+','
         query = query + ")"
-        #print(query)
-        response = client.execute(db, query)
 
+        try:
+            response = client.execute(db, query)
+        except Exception: 
+            print("An error occured getting LP metadata")
+            print(query)
+            traceback.print_exc()
+            
         # we also support dataframes:
         dataframe = dataframe_from_result_table(response.primary_results[0])
         return dataframe
@@ -156,12 +162,18 @@ class ms_learn_crawler:
             if i<len(learn_uids)-1:
                 query = query+','
         query = query + ")"
-        #print(query)
-        response = client.execute(db, query)
 
-        # we also support dataframes:
-        dataframe = dataframe_from_result_table(response.primary_results[0])
-        return dataframe
+        try:
+            response = client.execute(db, query)
+            # we also support dataframes:
+            dataframe = dataframe_from_result_table(response.primary_results[0])
+            return dataframe
+        except Exception: 
+            print("An error occured getting module metadata")
+            print(query)
+            traceback.print_exc()
+
+
         
     def get_module_ratings(self, module_urls):
         cluster = "https://cgadatamall.westus.kusto.windows.net"
@@ -193,8 +205,13 @@ class ms_learn_crawler:
             if i<len(module_urls)-1:
                 query = query+','
         query = query + ")"
-        #print(query)
-        response = client.execute(db, query)
+
+        try:
+            response = client.execute(db, query)
+        except Exception: 
+            print("An error occured getting module ratings")
+            print(query)
+            traceback.print_exc()
 
         # we also support dataframes:
         dataframe = dataframe_from_result_table(response.primary_results[0])
